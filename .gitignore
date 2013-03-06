@@ -1,0 +1,9 @@
+## Ignoring input and output files ##
+
+RawVideo/
+JRatOutput/
+ImageStills/
+ConvertedImages/
+Archive/
+*.png
+*.MOV
