@@ -7,7 +7,7 @@ import java.awt.Color;
 
 
 
-public class StreakThree{
+public class Streak{
 
 
 
@@ -16,8 +16,8 @@ public class StreakThree{
 	private static File productFolder;
 	private static File[] inputArray;
 	private static ArrayList<int[]> bufferColors = new ArrayList<int[]>();
-	private static HashMap<List<Integer>, Integer> colorHash = new HashMap<List<Integer>, Integer>();
-	private static int[][][] pixelMap;
+	//private static HashMap<List<Integer>, Integer> colorHash = new HashMap<List<Integer>, Integer>();
+	private static int[][][] changeBuffer;
 	private static Random randomGen = new Random();
 	private static int delay;
 
@@ -83,11 +83,13 @@ public class StreakThree{
 			System.out.println("There was an error in reading the image: " + inputArray[1]);
 		}
 
-		//pixelMap = new int[inputArray.length][templateImage.getWidth()][templateImage.getHeight()];
+		//System.out.println("The image is: " + templateImage.getWidth() + templateImage.getHeight());
+
+		changeBuffer = new int[delay][templateImage.getWidth()][templateImage.getHeight()];
 
 		for(int i=1; i<inputArray.length; i++){
 
-			System.out.println(inputArray[i]);
+			System.out.println(inputArray[i] + "of " + inputArray.length + " total");
 
 
 			BufferedImage imgSubject = null;
@@ -97,7 +99,9 @@ public class StreakThree{
 				System.out.println("There was an error in reading the image: " + inputArray[i]);
 			}
 
+
 			BufferedImage imgProduct = new BufferedImage(imgSubject.getWidth(), imgSubject.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
 
 			for(int x=0; x<imgSubject.getWidth(); x++){
 
@@ -107,17 +111,14 @@ public class StreakThree{
 					boolean pixelSet = false;
 
 
-					for(int j=delay; j>0 && !pixelSet; j-- ){
-
-						if((i-j)>0){
-
-							List<Integer> fileColorMatch = Arrays.asList(i-j,x,y);
-
-							if(colorHash.containsKey(fileColorMatch)){
+					for(int j=0; j<delay && !pixelSet; j++ ){
 
 
-								int previousColor = colorHash.get(fileColorMatch);
-								imgProduct.setRGB(x,y,previousColor);
+							//List<Integer> fileColorMatch = Arrays.asList(i-j,x,y);
+
+							if(changeBuffer[j][x][y]!=0){
+
+								imgProduct.setRGB(x,y,changeBuffer[j][x][y]);
 								pixelSet = true;
 
 
@@ -129,16 +130,27 @@ public class StreakThree{
 								pixelSet = true;
 								break;
 							}*/
-						}
+						
 
 
 					}
 
-					List<Integer> expiredListing = Arrays.asList(i-delay-1,x,y);
+
+					for(int k=0; k < delay-1; k++ ){
+
+
+
+						changeBuffer[k][x][y] = changeBuffer[k+1][x][y];
+
+
+
+					}
+
+					/*List<Integer> expiredListing = Arrays.asList(i-delay-1,x,y);
 
 					if(colorHash.containsKey(expiredListing)){
 						colorHash.remove(expiredListing);
-					}
+					}*/
 
 					/*for(int j=0; j<bufferColors.size(); j++){
 
@@ -163,9 +175,9 @@ public class StreakThree{
 						/*int[] pixelRemember = {i,x,y,randomColor};
 						bufferColors.add(pixelRemember);*/
 						/*pixelMap[i][x][y] = randomColor;*/
-						List<Integer> fileCoordinateKey = Arrays.asList(i,x,y);
-						colorHash.put(fileCoordinateKey, randomColor);
-
+						//List<Integer> fileCoordinateKey = Arrays.asList(i,x,y);
+						//colorHash.put(fileCoordinateKey, randomColor);
+						changeBuffer[delay-1][x][y] = randomColor;
 
 					}else if (!pixelSet){
 						imgProduct.setRGB(x,y,imgSubject.getRGB(x,y));
