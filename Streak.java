@@ -136,15 +136,7 @@ public class Streak{
 					}
 
 
-					for(int k=0; k < delay-1; k++ ){
-
-
-
-						changeBuffer[k][x][y] = changeBuffer[k+1][x][y];
-
-
-
-					}
+					
 
 					/*List<Integer> expiredListing = Arrays.asList(i-delay-1,x,y);
 
@@ -181,6 +173,20 @@ public class Streak{
 
 					}else if (!pixelSet){
 						imgProduct.setRGB(x,y,imgSubject.getRGB(x,y));
+					}
+
+					if(!isGreen(subjectColor)){
+						changeBuffer[delay-1][x][y] = 0;
+					}
+
+					for(int k=0; k < delay-1; k++ ){
+
+
+
+						changeBuffer[k][x][y] = changeBuffer[k+1][x][y];
+
+
+
 					}
 
 
