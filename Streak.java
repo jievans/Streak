@@ -8,9 +8,6 @@ import java.lang.ProcessBuilder;
 import java.util.Scanner;
 
 
-
-
-
 public class Streak{
 
 	private static String stringInput;
@@ -78,6 +75,38 @@ public class Streak{
 
 	public static void main(String[] args){
 
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			public void run() {
+				ProcessBuilder deleteTempFrames  = new ProcessBuilder("rm","-r",stillsFolder.getAbsolutePath(),productFolder.getAbsolutePath());
+
+
+				deleteTempFrames.redirectErrorStream(true);
+
+
+				try{
+
+					Process process = deleteTempFrames.start();
+					System.out.println(":)");
+					BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+					String line;
+					while ((line = reader.readLine()) != null){
+
+						System.out.println(line);
+
+					}
+					process.waitFor();
+
+
+				} catch(IOException e){
+
+					System.out.println("There was a problem in removing the temporary frames.  Please check that you have the program rm properly installed on your Mac.");
+
+				} catch(InterruptedException e){
+					System.out.println("There was an interrupted exception.");
+				}
+			}
+		}, "Shutdown-thread"));
+
 
 
 		inputVideo = new File(args[0]);
@@ -128,8 +157,7 @@ public class Streak{
 	 
 		stillsFolder = new File(outputVideo.getParentFile(),"StillImages");
 		stillsFolder.mkdir();
-		stillsFolder.deleteOnExit();
-
+		
 		double frameRate = Streaming.frameRate(stringInput);
 
 		String stringFrameRate = "" + frameRate;
@@ -177,7 +205,7 @@ public class Streak{
 		//productFolder = new File(args[1]);
 		productFolder = new File(outputVideo.getParentFile(),"ProcessedImages");
 		productFolder.mkdir();
-		productFolder.deleteOnExit();
+		
 		
 
 
@@ -215,32 +243,22 @@ public class Streak{
 
 				for(int y=0; y<imgSubject.getHeight(); y++){
 
+
 					Color subjectColor = new Color(imgSubject.getRGB(x,y), true);
 					boolean pixelSet = false;
 
-
 					for(int j=0; j<delay && !pixelSet; j++ ){
-
-
-						
 
 							if(changeBuffer[j][x][y]!=0){
 
 								imgProduct.setRGB(x,y,changeBuffer[j][x][y]);
 								pixelSet = true;
 
-
 							}
-
-							
 						
-
-
 					}
 
-
 					
-
 					if(isGreen(subjectColor) && !pixelSet){
 
 						int randomColor = setRandomColor(imgProduct,x,y).getRGB();
@@ -256,11 +274,7 @@ public class Streak{
 
 					for(int k=0; k < delay-1; k++ ){
 
-
-
 						changeBuffer[k][x][y] = changeBuffer[k+1][x][y];
-
-
 
 					}
 
@@ -269,21 +283,17 @@ public class Streak{
 			}
 
 			try{
-				File fullProductPath = new File(productFolder, ""+i+".png");
+				File fullProductPath = new File(productFolder, ""+(i+1)+".png");
 				ImageIO.write(imgProduct, "png", fullProductPath);
 			} catch (IOException e) {
 				System.out.println("There was an error writing the saved file.");
 			}
-
-
-
 
 		}
 
 		System.out.println(stringFrameRate);
 		ProcessBuilder buildFinalVideo  = new ProcessBuilder("ffmpeg","-r",stringFrameRate,"-i",productFolder.getAbsolutePath()+"/%d.png","-i",audioLocation.getAbsolutePath(),"-strict","-2","-r",stringFrameRate,stringOutput);
 		buildFinalVideo.redirectErrorStream(true);
-
 
 		try{
 			
