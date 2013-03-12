@@ -28,9 +28,9 @@ First, navigate to an image of the color green on your phone.  I've been using t
 
 To run Streak, download the class files into a single directory, and then navigate to that directory on the command line (using cd). Your input will then take on the following structure:
 
-	sudo java -Xmx2g Streak "/AbsolutePathNameOfYourInputVideo" "/AbsolutePathNameOfYourDesiredOutputVideo" [DelayIntegerValue]
+	sudo java -Xmx2g Streak "/AbsolutePathNameOfYourInputVideo" "/AbsolutePathNameOfYourDesiredOutputVideo" <u>DelayIntegerValue</u>
 
-As described in the previous section, [DelayIntegerValue] is a whole number that represents the number of video frames in which your streaks appear once they're formed. So if your video is 24 frames per second (fps), then setting the delay value at 24 will result in streaks staying on the screen for 1 second. 
+As described in the previous section, *DelayIntegerValue* is a whole number that represents the number of video frames in which your streaks appear once they're formed. So if your video is 24 frames per second (fps), then setting the delay value at 24 will result in streaks staying on the screen for 1 second. 
 
 The flag -Xmx2g sets the maximum memory provided to the Java Virtual Machine (JVM) at 2GB.  As explained in the requirements, you may want to increase or decrease this number depending on your desired delay value and/or your machine specifications. For example, entering -Xmx512m as a flag would set the maximum memory of the JVM at 512MB.  
 
