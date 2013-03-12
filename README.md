@@ -41,6 +41,7 @@ Here is an example of input that could be given to Streak at the command line.
 
 To-Do List
 ----------
+* Adding comments to current code.
 * Changing the Delay value from a frame value to a much more intuitive time value (with time expressed in seconds).
 * Adding options for different color effects. Streak currently only supports replacing original video pixels with pixels of a random color.  
 * Providing users the option to vary their paint brush color.

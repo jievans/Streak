@@ -7,9 +7,17 @@ import java.lang.Process;
 import java.lang.ProcessBuilder;
 import java.util.Scanner;
 
+/*
+Welcome to Streak! Step through the comments below to see how Streak works.
+Note: the comments are currently incomplete and only run up to the main method.  
+*/
 
 public class Streak{
 
+/*
+Here we declare most of the variables that will be used throughout the program. 
+Their use will become more apparent as we initialize them later on.
+*/
 	private static String stringInput;
 	private static String stringOutput;
 	private static File inputVideo;
@@ -26,6 +34,9 @@ public class Streak{
 	private static Random randomGen = new Random();
 	private static int delay;
 
+/*
+The isGreen method takes in a Java color object (associated with a given pixel of a given frame in our video) and decides if we consider the color to be Green. We have to analyze the separate RGB components of each pixel, because the color Green is so specific in RGB terms that few pixels would be considered purely Green in a natural environment (i.e., many pixels on our smartphone's image of Green wouldn't be considereded purely Green when we shine different types of light on it and reflect different surfaces off the image). This is why we set more general terms for what we consider to be Green.  This method could be improved to produce more accurate capturing of the Green color.  
+*/
 	private static boolean isGreen(Color color){
 
 		if(color.getGreen()>105 && color.getRed()<115 && color.getBlue()<115){
@@ -35,6 +46,10 @@ public class Streak{
 		}
 
 	}
+
+/*
+This method is used to generate a Random color for a pixel.  The Streak effect is obtained by setting pixels to these Random colors after they have been "marked" for color change by the Green image on the smartphone.   
+*/
 
 	private static Color setRandomColor(BufferedImage image, int x, int y){
 
@@ -48,7 +63,9 @@ public class Streak{
 		return randomColor;
 
 	}
-
+/*
+Comments for the main method will be coming soon!
+*/
 	
 
 	public static void main(String[] args){
