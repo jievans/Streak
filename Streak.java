@@ -22,7 +22,6 @@ public class Streak{
 	private static File productFolder;
 	private static File[] inputArray;
 	private static ArrayList<int[]> bufferColors = new ArrayList<int[]>();
-	//private static HashMap<List<Integer>, Integer> colorHash = new HashMap<List<Integer>, Integer>();
 	private static int[][][] changeBuffer;
 	private static Random randomGen = new Random();
 	private static int delay;
@@ -51,27 +50,6 @@ public class Streak{
 	}
 
 	
-
-
-
-	/*private static boolean cycleBuffer(BufferedImage subject, int x, int y, int i){
-
-		Color subjectColor = new Color(subject.getRGB(x,y), true);
-
-		for(int j=0; j<bufferColors.size(); j++){
-
-			int[] bufferItem = bufferColors.get(j);
-
-			if((i-bufferItem[0])<delay && bufferItem[1]==x && bufferItem[2]==y){
-
-				imgProduct.setRGB(x,y,bufferItem[3]);
-				return true;
-
-			}
-		}
-
-		return false;
-	}*/
 
 	public static void main(String[] args){
 
@@ -198,11 +176,8 @@ public class Streak{
 		
 		System.out.println("Still image processing completed successfully...");
 
-		//imageFolder = new File(args[0]);
-		//System.out.println(stillsFolder.list(new myFilter()));
+	
 		inputArray = stillsFolder.listFiles(new myFilter());
-		//System.out.println(Arrays.toString(inputArray));
-		//productFolder = new File(args[1]);
 		productFolder = new File(outputVideo.getParentFile(),"ProcessedImages");
 		productFolder.mkdir();
 		
@@ -218,8 +193,6 @@ public class Streak{
 		} catch(IOException e){
 			System.out.println("There was an error in reading the image: " + inputArray[1]);
 		}
-
-		//System.out.println("The image is: " + templateImage.getWidth() + templateImage.getHeight());
 
 		changeBuffer = new int[delay][templateImage.getWidth()][templateImage.getHeight()];
 
